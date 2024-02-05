@@ -5,6 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { usePathname } from 'next/navigation'
+import FreeCounter from '@/components/FreeCounter'
+
 
 const routes = [
   {
@@ -25,18 +27,18 @@ const routes = [
     color: "text-pink-700",
     href: '/image',
   },
-  {
-    label: 'Video Generation',
-    icon: VideoIcon,
-    color: "text-orange-700",
-    href: '/video',
-  },
-  {
-    label: 'Music Generation',
-    icon: Music,
-    color: "text-emerald-500",
-    href: '/music',
-  },
+  // {
+  //   label: 'Video Generation',
+  //   icon: VideoIcon,
+  //   color: "text-orange-700",
+  //   href: '/video',
+  // },
+  // {
+  //   label: 'Music Generation',
+  //   icon: Music,
+  //   color: "text-emerald-500",
+  //   href: '/music',
+  // },
   {
     label: 'Code Generation',
     icon: Code,
@@ -50,12 +52,17 @@ const routes = [
     color:'text-gray-100'
   },
 ];
+interface ApiLimitCountProp{
+  ApiLimitCount: number
+}
 
-const Sidebar = () => {
+const Sidebar = ({
+  ApiLimitCount = 0
+}: ApiLimitCountProp) => {
   const pathname = usePathname()
   return (
-    <div className=' h-full flex flex-col space-y-4  py-4 text-white bg-gray-800 '>
-        <div className=' px-3 py-2 flex-1'>
+    <div className='h-full flex flex-col space-y-4  py-4 text-white bg-gray-800 '>
+        <div className='px-3 py-2 flex-1'>
             <Link href='/dashboard' className=' flex items-center pl-3 mb-14'>
                 <div className=' relative h-8 w-8 mr-4'>
                     <Image
@@ -73,9 +80,9 @@ const Sidebar = () => {
               href={route.href}
               className={cn(
                 "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
-                pathname === route.href ? "text-white bg-white/10": " text-zinc-400",
+                 pathname === route.href ? "text-white bg-white/10": " text-zinc-400",
               )}
-            >
+              >
               <div className="flex items-center flex-1">
                 <route.icon className={cn("h-5 w-5 mr-3", route.color)} />
                 {route.label}
@@ -83,8 +90,11 @@ const Sidebar = () => {
             </Link>
           ))}
             </div>
+                
         </div>
-      
+            <FreeCounter
+              ApiLimitCount={ApiLimitCount}
+            />
     </div>
   )
 }
